@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kanq.platform.mapper.ActivitiMapper">
+
+	<resultMap id="BaseResultMap" type="com.kanq.platform.bean.FormBean">
+		<id column="uuid" property="uuid" jdbcType="INTEGER" />
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="taskId" property="taskId" jdbcType="INTEGER" />
+		<result column="leaveDay" property="leaveDay" jdbcType="INTEGER" />
+		<result column="bz" property="remark" jdbcType="VARCHAR" />
+		<result column="remark1" property="remark1" jdbcType="VARCHAR" />
+		<result column="department" property="department" jdbcType="VARCHAR" />
+		<result column="applicationDate" property="applicationDate" jdbcType="TIMESTAMP" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="applicant" property="assignee" jdbcType="VARCHAR" />
+		<result column="nodeDefinition" property="definition" jdbcType="VARCHAR" />
+		<result column="nodeName" property="nodeName" jdbcType="VARCHAR" />
+		<result column="nodePeople" property="nodePeople" jdbcType="VARCHAR" />
+		<result column="nodePeoples" property="nodePeoples" jdbcType="VARCHAR" />
+		<result column="nodeSP1" property="nodeSP1" jdbcType="VARCHAR" />
+		<result column="nodeSP2" property="nodeSP2" jdbcType="VARCHAR" />
+		<result column="nodeOne" property="nodeOne" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+	uuid, 
+	id, 
+	taskId, 
+	leaveday, 
+	department, 
+	applicationDate, 
+	createDate, 
+	Applicant, 
+	nodeDefinition,
+	nodename, 
+	nodepeople, 
+	nodepeoples, 
+	nodeSP1,
+	nodeSP2,
+	nodeone, 
+	bz, 
+	remark1 
+	</sql>
+	<sql id="table_name">
+		activitiform
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where id = #{id}
+	</select>
+	
+	<delete id="deleteById">
+		delete FROM <include refid="table_name"/> where uuid = #{uuid}
+	</delete>
+	
+ 	<!-- 根据申请人查询表单 -->
+	<select id="queryAllByName" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where Applicant = #{applicant}
+	</select>
+	
+ 	<!-- 根据审批人查询表单 -->
+	<select id="queryAllByNodeName" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where nodepeople = #{assignee} and nodeone != -1 and nodeone != 1
+	</select>
+	
+	<!-- 待办信息查询 -->
+	<select id="findDBByLoginName" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where nodepeople = #{assignee} and nodeone != -1 and nodeone != 1
+	</select>
+	
+	<!-- 已办信息查询 -->
+	<select id="findYBByLoginName" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" /> 
+		from 
+		<include refid="table_name" />
+		 where nodepeoples like CONCAT('%',#{assignee},'%')  and  
+		 nodepeople not like CONCAT('%',#{assignee},'%') 
+		 and nodeone != -1 and nodeone != 1
+	</select>
+	
+	<!-- 办结信息查询 -->
+	<select id="findBJByLoginName" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where nodepeoples like  CONCAT('%',#{assignee},'%') and nodeone = -1 or nodeone = 1
+	</select>
+	
+	
+	<!-- 办结信息查询 -->
+	<select id="findByUuid" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from 
+		<include refid="table_name" />
+		 where uuid=#{uuid}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" >
+		delete from 
+		<include refid="table_name" />
+		 where id = #{id} 
+	</delete>
+ 
+ 	<!-- 插入表单 -->
+	<insert id="insertForm">
+		insert into 
+		<include refid="table_name" />
+		 (
+		<include refid="Base_Column_List" />	 
+		)
+		values (#{uuid},#{id}, #{taskId},#{leaveDay },#{department},
+		#{applicationDate},#{createDate },#{assignee },#{definition},
+		#{nodeName},#{nodePeople},#{nodePeoples},'','',#{nodeOne},#{remark },'请假')
+	</insert> 
+
+	<!-- 完成审批流程 -->
+	<update id="updateNodeById" > 
+		update 
+		<include refid="table_name" />
+		set nodePeople = #{assignee},taskId=#{taskId}, nodeDefinition = #{definition},
+		nodeName = #{name},nodeOne = #{process},nodeSP1=#{nodeSP1},nodeSP2=#{nodeSP2} 
+		where id = #{processId}
+	</update>  
+	
+	 <!-- 更新节点信息 -->
+	<update id="updateSave" > 
+		update 
+		<include refid="table_name" />
+		set id=#{id},bz=#{remark } ,createDate=#{createDate },department=#{department},
+		leaveDay=#{leaveDay },applicationDate=#{applicationDate},nodeName=#{nodeName},
+		nodePeople=#{nodePeople},nodePeoples=#{nodePeoples},nodeDefinition=#{definition},
+		taskId=#{taskId},nodeOne =#{nodeOne},nodeSP1=#{nodeSP1},nodeSP2=#{nodeSP2} 
+		where uuid = #{uuid}
+	</update>   
+	
+<!-- 	
+	<update id="updateSave" > 
+		update 
+		<include refid="table_name" />
+		set bz=#{remark } ,createDate=#{createDate },department=#{department},
+		leaveDay=#{leaveDay },applicationDate=#{applicationDate}
+		where uuid = #{uuid}
+	</update>   --> 	
+	<!-- 返回申请人结束此流程 -->
+	<update id="goUpdatePreNode" > 
+		update 
+		<include refid="table_name" />
+		set  nodeOne = #{nodeOne},nodeSP1=#{nodeSP1},nodeSP2=#{nodeSP2} 
+		where uuid = #{uuid}
+	</update>   
+	 
+	
+	
+	
+	<update id="updateByPrimaryKey">
+		update user_t
+		set Applicant = #{assignee},
+		remark =
+		#{remark},
+		leaveDay = #{leaveDay}
+		where id = #{id}
+	</update>
+	
+	
+
+	<!-- <insert id="insertSelective" parameterType="com.cn.hnust.pojo.User" 
+		> insert into user_t <trim prefix="(" suffix=")" suffixOverrides="," > <if 
+		test="id != null" > id, </if> <if test="userName != null" > user_name, </if> 
+		<if test="password != null" > password, </if> <if test="age != null" > age, 
+		</if> </trim> <trim prefix="values (" suffix=")" suffixOverrides="," > <if 
+		test="id != null" > #{id,jdbcType=INTEGER}, </if> <if test="userName != null" 
+		> #{userName,jdbcType=VARCHAR}, </if> <if test="password != null" > #{password,jdbcType=VARCHAR}, 
+		</if> <if test="age != null" > #{age,jdbcType=INTEGER}, </if> </trim> </insert> 
+		<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.User" 
+		> update user_t <set > <if test="userName != null" > user_name = #{userName,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > password = #{password,jdbcType=VARCHAR}, 
+		</if> <if test="age != null" > age = #{age,jdbcType=INTEGER}, </if> </set> 
+		where id = #{id,jdbcType=INTEGER} </update> -->
+
+</mapper>

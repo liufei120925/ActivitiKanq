@@ -1,0 +1,141 @@
+/*---滚动条默认显示样式--*/
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 50px;
+	outline-offset: -2px;
+	outline: 2px solid #fff;
+	-webkit-border-radius: 4px;
+	border: 2px solid #fff;
+}
+/*---鼠标点击滚动条显示样式--*/
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 50px;
+	-webkit-border-radius: 4px;
+}
+/*---滚动条大小--*/
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+/*---滚动框背景样式--*/
+::-webkit-scrollbar-track-piece {
+	background-color: #fff;
+	-webkit-border-radius: 0;
+}
+
+/* .tree-left-sidebar {
+	margin-bottom: 0;
+	display: block;
+	padding: 0px;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	top: 0;
+	z-index: 1000;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #f2f2f2;
+	border-right: 1px solid #ddd;
+} */
+.tree-left-sidebar {
+	padding: 0px;
+	display: block;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	position: fixed;
+}
+
+.tree-left-sidebar .sidebar-panel {
+	margin-bottom: 0;
+	padding: 0;
+	display: block;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	border-radius: 0;
+	background: #F2F2F2;
+}
+
+.tree-left-sidebar .sidebar-panel .sidebar-panel-body {
+	overflow-y: auto;
+	overflow-x: auto;
+	margin-bottom: 0;
+	padding: 0;
+	width: 100%;
+	display: block;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+}
+
+.tree-left-sidebar .sidebar-panel .panel-heading {
+	padding: 4px 15px;
+}
+
+.tree-left-sidebar .toolbar {
+	margin-top: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CCC;
+}
+
+.tree-left-sidebar .sidebar-btn {
+	padding: 2px;
+	margin-right: 2px;
+}
+
+.tree-left-sidebar .search-group {
+	margin-bottom: 0 !important;
+	width: 80%;
+	display: inline-block;
+}
+
+.tree-left-sidebar .search-group .search-input {
+	height: 26px;
+	width: 100%;
+}
+
+.tree-left-sidebar .form-control-feedback {
+	top: -2px !important;
+}
+
+.main-head-toolbar {
+	border-bottom: 1px solid #ccc;
+	line-height: 50px;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.sys-operation-item {
+	cursor: default;
+	color: #5B5B5B;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	padding: 1px 1px;
+	border: 1px solid #EAD483;
+	text-align: center;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+.sys-operation-item-text-not-checked {
+	display: inline-block;
+	padding: 0 5px 0 5px;
+}
+
+.sys-operation-item-text-checked {
+	display: inline-block;
+	padding: 0 5px 0 5px;
+	background: #1E8DD9;
+	color: #fff;
+	border-radius: 4px;
+}
+
+.form-control[disabled], fieldset[disabled] .form-control {
+	cursor: auto;
+}
